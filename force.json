@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v4.json",
+  "width": 500,
+  "height": 500,
+  "padding": {"top":0, "bottom":0, "left":0, "right":0},
+
+
+  "data": [
+    {
+      "name": "edges-data",
+      "url": "https://raw.githubusercontent.com/d3/d3-plugins/master/graph/data/miserables.json",
+      "format": {"type": "json", "property": "links"}
+    },
+
+    {
+      "name": "nodes-data",
+      "url": "https://raw.githubusercontent.com/d3/d3-plugins/master/graph/data/miserables.json",
+      "format": {"type": "json", "property": "nodes"},
+      "transform": [
+        { 
+          "type": "force",  
+          "iterations": 50,
+          "forces": [
+            {
+              "force": "center", 
+              "x": 250, 
+              "y": 250
+            },
+            {
+              "force": "nbody", 
+              "strength": -30
+            },
+            {
+              "force": "link", 
+              "links": "edges-data", 
+              "distance": 80
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "nodes-data", "field": "group"},
+      "range": {"scheme":"category10"}
+    },
+    {
+      "name": "size",
+      "type": "ordinal",
+      "domain": {"data": "nodes-data", "field": "group"},
+      "range": [50,100,150,200,250,300,350,400]
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "symbol",
+      "from": {"data": "nodes-data"},
+      "zindex": 1,
+      "encode": {
+        "enter": {
+          "fillOpacity": {"value": 0.9},
+          "stroke": {"value": "steelblue"},
+          "size": {"scale": "size", "field": "group"}
+        },
+        "update": {
+          "x": {"field": "x"},
+          "y": {"field": "y"},
+          "fill": {"scale": "color", "field": "group"}
+        },
+        "hover": {
+          "fill": {"value": "#f00"}
+        }
+      }
+    },
+    {
+      "type": "path",
+      "from": {"data": "edges-data"}, 
+      "transform": [
+        {
+          "type": "linkpath", "shape": "line",
+          "sourceX": "datum.source.x", "sourceY": "datum.source.y",
+          "targetX": "datum.target.x", "targetY": "datum.target.y"
+        }
+      ],
+      "encode": {
+        "update": {
+          "path": {"field": "layout_path"},
+          "stroke": {"value": "#ccc"},
+          "strokeWidth": {"value": 0.5}
+        }
+      }
+    }    
+  ] 
+
+ }
