@@ -8,13 +8,13 @@
   "data": [
     {
       "name": "edges-data",
-      "url": "https://raw.githubusercontent.com/d3/d3-plugins/master/graph/data/miserables.json",
+      "url": "https://raw.githubusercontent.com/terejanu/vega_Force_example/master/miserables.json",
       "format": {"type": "json", "property": "links"}
     },
 
     {
       "name": "nodes-data",
-      "url": "https://raw.githubusercontent.com/d3/d3-plugins/master/graph/data/miserables.json",
+      "url": "https://raw.githubusercontent.com/terejanu/vega_Force_example/master/miserables.json",
       "format": {"type": "json", "property": "nodes"},
       "transform": [
         { 
